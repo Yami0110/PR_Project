@@ -10,6 +10,9 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] === false) {
 $mediaDetails = $db->getMediaDetails($_GET['id']);
 $type = $mediaDetails[0]['type_id'];
 
+$tags = $db->getAllMediaTags();
+$mediaTags = $db->getMediaTags($_GET["id"]);
+
 ?>
 
 <!DOCTYPE html>
@@ -131,8 +134,60 @@ https://templatemo.com/tm-556-catalog-z
                     <div class="form-group tm-text-right">
                         <button type="submit" name="submit" class="btn btn-primary" style="width: 200px">Update</button>
                     </div>
-                </form>  
-                <h2 class="tm-text-primary mb-5" style="margin-left: 20px;">Or</h2>
+                </form>
+                <h2 class="tm-text-primary mb-5" style="margin-left: 20px;">or</h2>
+                <form id="contact-form" action="add_tag_to_media.php" method="POST" class="tm-contact-form mx-auto">
+                    <h3 class="tm-text-primary">Tags:</h3>
+                    <div class="form-group">
+                        <?php
+                            foreach ($mediaTags as $mediaTag) {
+                        ?>
+                            <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block"><?php echo $mediaTag["tag"]; ?></a>
+                        <?php
+                            }
+                        ?>
+                        <h3 class="tm-text-primary">Add tag:</h3>
+                        <select class="form-control" name="tag_id" id="tag_id">
+                            <option value="-">tag</option>
+                            <?php
+                                foreach ($tags as $tag) {
+                            ?>
+                            <option value="<?php echo $tag["id"]; ?>"><?php echo $tag["tag"]; ?></option>
+                            <?php
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="media_id" value="<?php echo $mediaDetails[0]['id']; ?>"/>
+                    </div>
+                    <div class="form-group tm-text-right">
+                        <button type="submit" name="submit" class="btn btn-primary" style="width: 200px">Add</button>
+                    </div>
+                </form>
+                <form id="contact-form" action="delete_tag_from_media.php" method="POST" class="tm-contact-form mx-auto">
+                    <h3 class="tm-text-primary">Delete tag:</h3>
+                    <div class="form-group">
+                        <select class="form-control" name="tag_id" id="tag_id">
+                            <option value="-">tag</option>
+                            <?php
+                                foreach ($mediaTags as $mediaTag) {
+                            ?>
+                            <option value="<?php echo $mediaTag["tag_id"]; ?>"><?php echo $mediaTag["tag"]; ?></option>
+                            <?php
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="media_id" value="<?php echo $mediaDetails[0]['id']; ?>"/>
+                    </div>
+                    <div class="form-group tm-text-right">
+                        <button type="submit" name="submit" class="btn btn-primary" style="width: 200px">Delete</button>
+                    </div>
+                </form>
+                <h2 class="tm-text-primary mb-5" style="margin-left: 20px;">or</h2>
+                <h3 class="tm-text-primary" style="margin-left: 20px;">Delete media:</h3>
                 <a href="delete_media.php?id=<?php echo $mediaDetails[0]["id"]; ?>" class="btn btn-primary" style="width: 200px; margin-left: 20px;">Delete</a><br/><br/>  
             </div>
         </div>

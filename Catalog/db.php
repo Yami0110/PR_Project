@@ -78,7 +78,7 @@ class DB {
     }
 
     public function getMediaTags($id) {
-        $sql = "SELECT tag.tag AS tag 
+        $sql = "SELECT tag.tag AS tag, tag_has_media.tag_id AS tag_id
                 FROM tag
                 INNER JOIN tag_has_media ON tag.id = tag_has_media.tag_id
                 INNER JOIN media ON tag_has_media.media_id = media.id
@@ -91,6 +91,43 @@ class DB {
             return $result;
         } catch (\PDOException $e) {
             return $result;
+        }
+    }
+
+    public function getAllMediaTags() {
+        $sql = "SELECT * FROM tag";
+        $result = [];
+
+        try {
+            $query = $this->connection->query($sql);
+            $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $e) {
+            return $result;
+        }
+    }
+
+    public function insertTagToMedia($mediaId, $tagId) {
+        $sql = "INSERT INTO tag_has_media(tag_id, media_id)
+                VALUE (" . $tagId . ", 
+                " . $mediaId . ")";
+        
+        try {
+            $this->connection->exec($sql);
+            return true;
+        } catch (\PDOException $e) {
+            return false;
+        }
+    }
+
+    public function deleteTagFromMedia($mediaId, $tagId) {
+        $sql = "DELETE FROM tag_has_media WHERE media_id = " . $mediaId . " AND tag_id = " . $tagId;
+
+        try {
+            $this->connection->exec($sql);
+            return true;
+        } catch (\PDOException $e) {
+            return false;
         }
     }
 

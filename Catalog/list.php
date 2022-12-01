@@ -125,7 +125,7 @@ https://templatemo.com/tm-556-catalog-z
                         <img src="<?php echo $mediaItem["image_link"]; ?>" alt="Image" class="img-fluid">
                         <figcaption class="d-flex align-items-center justify-content-center">
                             <h2><?php echo $mediaItem["display_name"]; ?></h2>
-                            <a href="edit_media_form.php?id=<?php echo $mediaItem["id"]; ?>">View more</a>
+                            <a href="edit_media_form.php?id=<?php echo $mediaItem["id"]; ?>">Edit</a>
                         </figcaption>                    
                     </figure>
                     <div class="d-flex justify-content-between tm-text-gray">
