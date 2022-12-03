@@ -19,7 +19,7 @@ if (isset($_GET['id'])) {
         echo "FATAL ERROR!!!";
     }
 } else {
-    if ($type == 2) {
+    if ($type == 1) {
         header("Location: list.php?mediaType=videos");
     } else {
         header("Location: list.php?mediaType=photos");
